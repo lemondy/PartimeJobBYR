@@ -57,14 +57,18 @@ public class PostListViewAdapter extends BaseAdapter{
             convertView = layoutInflater.inflate(R.layout.listview_item,null);
             holder.imageView = (ImageView)convertView.findViewById(R.id.post_image);
             holder.titleTextView = (TextView) convertView.findViewById(R.id.post_title);
-            holder.authorTextView = (TextView) convertView.findViewById(R.id.post_author);
+            //holder.authorTextView = (TextView) convertView.findViewById(R.id.post_author);
             holder.timeTextView = (TextView) convertView.findViewById(R.id.post_time);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder)convertView.getTag();
         }
-        holder.titleTextView.setText(posts.get(position).getPostTitle());
-        holder.authorTextView.setText(posts.get(position).getAuthorName());
+        String title = posts.get(position).getPostTitle();
+        if(title.length()>15)
+            holder.titleTextView.setText(title.substring(0,15));
+        else
+            holder.titleTextView.setText(title);
+        //holder.authorTextView.setText(posts.get(position).getAuthorName());
         holder.timeTextView.setText(posts.get(position).getPostTime());
         return convertView;
     }

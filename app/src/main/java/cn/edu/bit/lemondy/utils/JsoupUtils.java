@@ -18,49 +18,71 @@ import cn.edu.bit.lemondy.beans.Post;
  */
 public class JsoupUtils {
 
-    public static List<Post> getPartimePage(String url) throws IOException{
+    public static List<Post> getPartimePage(String url,String prefixUrl) throws IOException{
         List<Post> allPosts = new ArrayList<Post>();
-        //load a Document form a URL
-//        Connection conn = Jsoup.connect(url);
-//
-//        //pretend to be a browser
-//        conn.header("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:32.0) Gecko/    20100101 Firefox/32.0");
-//        Document doc = conn.get();
-//
-//        //get all data under tbody tag
-//        Elements elements = doc.select("tbody tr");
-//
-//        for(Element e:elements){
-//            Post p = new Post();
-//            p.setPostTitle(e.select("tr.title_9 bg-odd").text());
-//            p.setAuthorName((e.select("tr.title_12 bg-odd").text()));
-//            p.setPostTime(e.select("tr.title_10 bg-odd").text());
-//            allPosts.add(p);
-//        }
+       //load a Document form a URL
+
         Connection conn = Jsoup.connect(url);
         // 修改http包中的header,伪装成浏览器进行抓取
-        conn.header("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:32.0) Gecko/    20100101 Firefox/32.0");
+        //set header
+        conn.header("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:32.0) Gecko/    20100101 Firefox/32.0")
+                .header("Host", "bbs.byr.cn")
+                .header("Accept", " text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
+                .header("X-Requested-With", "XMLHttpRequest")      //this is important, or the page will not get the parttime job information
+                .header("Accept-Language", "zh-CN,zh;q=0.8,en;q=0.6");
+
         Document doc = conn.get();
-
-        // 获取tbody元素下的所有tr元素
+        //get the table data
         Elements elements = doc.select("tbody tr");
-        for(Element element : elements) {
-            String companyName = element.getElementsByTag("company").text();
-            String time = element.select("td.text-center").first().text();
-            String address = element.getElementsByClass("preach-tbody-addre").text();
-
+        System.out.println(elements.size());
+        for(Element e:elements)
+        {
             Post p = new Post();
-            p.setPostTitle(companyName);
-            p.setAuthorName(address);
-            p.setPostTime(time);
+            System.out.println("link:"+e.select("a[href]").first().attr("href"));
+            //
+            p.setPostUrl(prefixUrl+e.select("a[href]").first().attr("href"));
+            System.out.println("title:"+e.select("td.title_9").first().text());
+            p.setPostTitle(e.select("td.title_9").first().text());
+            System.out.println("time:"+e.select("td.title_10").first().text());
+            p.setPostTime(e.select("td.title_10").first().text().replaceAll("/?",""));
+            p.setAuthorName(e.select("td.title_12").first().text());
             allPosts.add(p);
-
-//            System.out.println("公司："+companyName);
-//            System.out.println("宣讲时间："+time);
-//            System.out.println("宣讲学校：华中科技大学");
-//            System.out.println("具体地点："+address);
-//            System.out.println("---------------------------------");
         }
+
+        return allPosts;
+    }
+
+    public static List<Post> getWebpageDetail(String url) throws IOException{
+        List<Post> allPosts = new ArrayList<Post>();
+        //load a Document form a URL
+
+        Connection conn = Jsoup.connect(url);
+        // 修改http包中的header,伪装成浏览器进行抓取
+        //set header
+        conn.header("User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:32.0) Gecko/    20100101 Firefox/32.0")
+                .header("Host", "bbs.byr.cn")
+                .header("Accept", " text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8")
+                .header("X-Requested-With", "XMLHttpRequest")      //this is important, or the page will not get the parttime job information
+                .header("Accept-Language", "zh-CN,zh;q=0.8,en;q=0.6");
+
+        Document doc = conn.get();
+        //get the table data
+        Elements elements = doc.select("div.a-wrap corner");
+        //System.out.println(elements.size());
+        for(Element e:elements)
+        {
+            Post p = new Post();
+            System.out.println("link:"+e.select("a[href]").first().attr("href"));
+            //
+            p.setPostUrl(e.select("a[href]").first().attr("href"));
+            System.out.println("title:"+e.select("td.title_9").first().text());
+            p.setPostTitle(e.select("td.title_9").first().text());
+            System.out.println("time:"+e.select("td.title_10").first().text());
+            p.setPostTime(e.select("td.title_10").first().text().replaceAll("/?",""));
+            p.setAuthorName(e.select("td.title_12").first().text());
+            allPosts.add(p);
+        }
+
         return allPosts;
     }
 }

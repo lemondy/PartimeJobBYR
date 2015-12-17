@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 
 /**
  * Created by lemon on 12-15.
- * @description:
+ * @description: 描述发表的一条帖子的信息
  *
  */
 public class Post {
@@ -14,6 +14,15 @@ public class Post {
     private String postTime;
     private String authorName;
     private String replyAmount;
+    private String postUrl;
+
+    public String getPostUrl() {
+        return postUrl;
+    }
+
+    public void setPostUrl(String postUrl) {
+        this.postUrl = postUrl;
+    }
 
     public String getPostImage() {
         return postImage;
