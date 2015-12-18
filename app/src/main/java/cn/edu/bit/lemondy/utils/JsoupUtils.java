@@ -66,23 +66,24 @@ public class JsoupUtils {
                 .header("Accept-Language", "zh-CN,zh;q=0.8,en;q=0.6");
 
         Document doc = conn.get();
+        //replace <br> tag in html page
+        String html = doc.html().replace("<br>", "$").replace("&nbsp;", "#");
+        //System.out.println("html"+html);
+        doc = Jsoup.parse(html);
         //get the table data
-        Elements elements = doc.select("div.a-wrap corner");
-        //System.out.println(elements.size());
+        Elements elements = doc.select("tbody tr");
+        System.out.println(elements.size());
         for(Element e:elements)
         {
+            //System.out.println(e.select("td.a-content").select("div.a-content-wrap").text().replace("$", "\n").replace("#", " "));
             Post p = new Post();
-            System.out.println("link:"+e.select("a[href]").first().attr("href"));
-            //
-            p.setPostUrl(e.select("a[href]").first().attr("href"));
-            System.out.println("title:"+e.select("td.title_9").first().text());
-            p.setPostTitle(e.select("td.title_9").first().text());
-            System.out.println("time:"+e.select("td.title_10").first().text());
-            p.setPostTime(e.select("td.title_10").first().text().replaceAll("/?",""));
-            p.setAuthorName(e.select("td.title_12").first().text());
+            p.setPostContent(e.select("td.a-content").select("div.a-content-wrap").text().replace("$", "\n").replace("#", " "));
+
+//			System.out.println("link:"+e.select("a[href]").first().attr("href"));
+//			System.out.println("title:"+e.select("td.title_9").first().text());
+//			System.out.println("time:"+e.select("td.title_10").first().text());
             allPosts.add(p);
         }
-
         return allPosts;
     }
 }

@@ -15,6 +15,8 @@ public class Post {
     private String authorName;
     private String replyAmount;
     private String postUrl;
+    private String postContent;
+
 
     public String getPostUrl() {
         return postUrl;
@@ -70,5 +72,13 @@ public class Post {
 
     public void setReplyAmount(String replyAmount) {
         this.replyAmount = replyAmount;
+    }
+
+    public String getPostContent() {
+        return postContent;
+    }
+
+    public void setPostContent(String postContent) {
+        this.postContent = postContent;
     }
 }

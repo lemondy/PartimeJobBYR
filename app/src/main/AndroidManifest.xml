@@ -21,9 +21,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".WebViewActivity"
-            android:label="@string/title_activity_web_view" />
-        <activity
             android:name=".WebDetailActivity"
             android:label="@string/title_activity_web_detail"></activity>
     </application>
