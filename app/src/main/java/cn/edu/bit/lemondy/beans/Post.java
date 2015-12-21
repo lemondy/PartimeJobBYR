@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
  *
  */
 public class Post {
+    private String id;
     private String postImage;
     private Bitmap postBitmap;
     private String postTitle;
@@ -17,6 +18,14 @@ public class Post {
     private String postUrl;
     private String postContent;
 
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getPostUrl() {
         return postUrl;
