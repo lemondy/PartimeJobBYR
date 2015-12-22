@@ -5,6 +5,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
+
+import cn.edu.bit.lemondy.beans.Post;
 
 /**
  * Created by lemon on 12-21.
@@ -54,15 +57,23 @@ public class XMLUtils {
         closeIO();
     }
 
-    public void writeItem(String title,String time) throws IOException{
+    public void writeItem(Post post) throws IOException{
         bufWriter = new BufferedWriter(new FileWriter(xmlFile,true));
         bufWriter.write("<post>\n");
-        bufWriter.write("\t<title>"+title+"</title>\n");
-        bufWriter.write("\t<time>"+time+"</time>\n");
+        bufWriter.write("\t<title>"+post.getPostTitle()+"</title>\n");
+        bufWriter.write("\t<time>"+post.getPostTime()+"</time>\n");
+        bufWriter.write("\t<reply>"+post.getReplyAmount()+"</reply>\n");
         bufWriter.write("</post>");
         bufWriter.write("\n\n");
         closeIO();
     }
+
+//    public Post readItem(String title){
+//
+//    }
+//    public List<Post> readAll(){
+//
+//    }
 
     public void closeIO(){
         try{

@@ -46,6 +46,7 @@ public class JsoupUtils {
             System.out.println("time:"+e.select("td.title_10").first().text());
             p.setPostTime(e.select("td.title_10").first().text().replaceAll("/?",""));
             p.setAuthorName(e.select("td.title_12").first().text());
+            p.setReplyAmount(e.select("td.title_11").text());
             allPosts.add(p);
         }
 

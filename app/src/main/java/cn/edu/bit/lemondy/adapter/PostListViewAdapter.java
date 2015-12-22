@@ -59,6 +59,7 @@ public class PostListViewAdapter extends BaseAdapter{
             holder.titleTextView = (TextView) convertView.findViewById(R.id.post_title);
             //holder.authorTextView = (TextView) convertView.findViewById(R.id.post_author);
             holder.timeTextView = (TextView) convertView.findViewById(R.id.post_time);
+            holder.replyTextView = (TextView) convertView.findViewById(R.id.post_reply);
             convertView.setTag(holder);
         }else{
             holder = (ViewHolder)convertView.getTag();
@@ -70,6 +71,8 @@ public class PostListViewAdapter extends BaseAdapter{
             holder.titleTextView.setText(title);
         //holder.authorTextView.setText(posts.get(position).getAuthorName());
         holder.timeTextView.setText(posts.get(position).getPostTime());
+
+        holder.replyTextView.setText(posts.get(position).getReplyAmount()+ "回复");
         return convertView;
     }
 
@@ -79,7 +82,7 @@ public class PostListViewAdapter extends BaseAdapter{
     static class ViewHolder{
         public ImageView imageView;
         public TextView titleTextView;
-        public TextView authorTextView;
         public TextView timeTextView;
+        public TextView replyTextView;
     }
 }
